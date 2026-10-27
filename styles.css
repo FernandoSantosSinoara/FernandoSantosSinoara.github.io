@@ -515,7 +515,7 @@ body {
   padding: 1.75rem;
   display: flex;
   flex-direction: column;
-  justify-space-between;
+  justify-content: space-between;
   box-shadow: var(--shadow-sm);
   transition: transform var(--transition-fast), border-color var(--transition-fast), opacity var(--transition-normal);
 }
@@ -731,7 +731,7 @@ body {
   width: 46px;
   height: 46px;
   background-color: var(--accent-primary);
-  color: #ffffff;
+  color: var(--bg-primary);
   border: none;
   border-radius: var(--radius-full);
   cursor: pointer;
@@ -743,6 +743,10 @@ body {
   visibility: hidden;
   transition: opacity var(--transition-normal), visibility var(--transition-normal), transform var(--transition-fast);
   z-index: 900;
+}
+
+[data-theme="light"] .back-to-top {
+  color: #ffffff;
 }
 
 .back-to-top.is-visible {
