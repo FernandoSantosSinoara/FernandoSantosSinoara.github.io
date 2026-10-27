@@ -27,6 +27,9 @@ Estudante de desenvolvimento de software com foco em lógica de programação, a
 * Pytest
 * Docker
 
+### Idiomas
+* Inglês avançado
+
 ### Banco de Dados
 
 * Experiência/familiaridade com banco de dados relacional SQL: **MySQL** e **SQLite**
@@ -45,11 +48,6 @@ Estudante de desenvolvimento de software com foco em lógica de programação, a
 * **Ferramentas:** Postman, Miro, Whimsical, Trello, Obsidian.
 
 ## Projetos e Experiência Prática
-
-### Desenvolvimento de Mods para Jogos
-
-* Desenvolvimento do zero de um mod para jogo.
-* Correção e refatoração de código de um mod já existente que não estava funcional, restaurando seu funcionamento.
 
 ### Projetos Colaborativos
 
