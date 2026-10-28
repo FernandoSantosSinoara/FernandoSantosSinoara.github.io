@@ -1,7 +1,7 @@
 /**
  * Portfólio Fernando Santos Sinoara - Script Principal (Vanilla JS)
  * Funcionalidades: Tema Claro/Escuro, Menu Mobile Acessível, Filtro de Projetos,
- * Intersection Observer para Scroll Reveal, ScrollSpy e Voltar ao Topo.
+ * Intersection Observer para Scroll Reveal, ScrollSpy, Voltar ao Topo e Envio de Formulário via Webhook (Fetch).
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initScrollSpy();
     initBackToTop();
     initCurrentYear();
+    initContactForm();
 });
 
 /* ==========================================================================
@@ -22,14 +23,12 @@ function initThemeManager() {
     const themeToggleBtn = document.getElementById('theme-toggle');
     if (!themeToggleBtn) return;
 
-    // Verificar preferência salva ou padrão do sistema
     const savedTheme = localStorage.getItem('portfolio-theme');
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     
     let currentTheme = savedTheme || (prefersDark ? 'dark' : 'light');
     applyTheme(currentTheme);
 
-    // Escutar mudança de preferência do sistema operacional
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
         if (!localStorage.getItem('portfolio-theme')) {
             applyTheme(e.matches ? 'dark' : 'light');
@@ -90,7 +89,6 @@ function initMobileMenu() {
 
     menuToggle.addEventListener('click', () => toggleMenu());
 
-    // Fechar ao clicar em um link
     navLinks.forEach(link => {
         link.addEventListener('click', () => {
             if (window.innerWidth < 768) {
@@ -99,7 +97,6 @@ function initMobileMenu() {
         });
     });
 
-    // Fechar ao redimensionar para desktop
     window.addEventListener('resize', () => {
         if (window.innerWidth >= 768 && mainNav.classList.contains('is-open')) {
             toggleMenu(false);
@@ -121,7 +118,6 @@ function initProjectFilters() {
         btn.addEventListener('click', () => {
             const selectedFilter = btn.getAttribute('data-filter');
 
-            // Atualizar botões
             filterButtons.forEach(b => {
                 b.classList.remove('active');
                 b.setAttribute('aria-selected', 'false');
@@ -129,7 +125,6 @@ function initProjectFilters() {
             btn.classList.add('active');
             btn.setAttribute('aria-selected', 'true');
 
-            // Filtrar cards
             projectCards.forEach(card => {
                 const category = card.getAttribute('data-category');
                 if (selectedFilter === 'all' || category === selectedFilter) {
@@ -146,11 +141,10 @@ function initProjectFilters() {
    4. INTERSECTION OBSERVER PARA REVEAL ANIMATION
    ========================================================================== */
 function initScrollReveal() {
-    // Respeitar preferência de movimento reduzido
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReducedMotion) return;
 
-    const targets = document.querySelectorAll('.skills-card, .project-card, .timeline-item, .about-card, .contact-card');
+    const targets = document.querySelectorAll('.skills-card, .project-card, .timeline-item, .about-card, .contact-card, .contact-form');
     
     targets.forEach(el => el.classList.add('reveal-item'));
 
@@ -237,4 +231,62 @@ function initCurrentYear() {
     if (yearSpan) {
         yearSpan.textContent = new Date().getFullYear();
     }
+}
+
+/* ==========================================================================
+   8. ENVIO DO FORMULÁRIO VIA FETCH (WEBHOOK NO JS)
+   ========================================================================== */
+function initContactForm() {
+    const form = document.getElementById('contact-form');
+    const statusMessage = document.getElementById('form-status');
+    const submitBtn = document.getElementById('submit-btn');
+    
+    if (!form || !statusMessage || !submitBtn) return;
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        // Substitua 'SEU_ID_FORMSPREE' pelo seu ID real fornecido pelo Formspree
+        const formspreeUrl = 'https://formspree.io/f/xrppqwpl';
+
+        const formData = new FormData(form);
+        
+        const originalBtnText = submitBtn.textContent;
+        submitBtn.textContent = 'Enviando...';
+        submitBtn.disabled = true;
+        statusMessage.style.display = 'none';
+
+        try {
+            const response = await fetch(formspreeUrl, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            });
+
+            if (response.ok) {
+                statusMessage.textContent = 'Mensagem enviada com sucesso! Obrigado pelo contato.';
+                statusMessage.className = 'form-status success';
+                statusMessage.style.display = 'block';
+                form.reset();
+            } else {
+                const data = await response.json();
+                if (Object.hasOwn(data, 'errors')) {
+                    statusMessage.textContent = data.errors.map(error => error.message).join(', ');
+                } else {
+                    statusMessage.textContent = 'Ocorreu um erro ao enviar a mensagem. Tente novamente.';
+                }
+                statusMessage.className = 'form-status error';
+                statusMessage.style.display = 'block';
+            }
+        } catch (error) {
+            statusMessage.textContent = 'Erro de conexão. Verifique sua rede e tente novamente.';
+            statusMessage.className = 'form-status error';
+            statusMessage.style.display = 'block';
+        } finally {
+            submitBtn.textContent = originalBtnText;
+            submitBtn.disabled = false;
+        }
+    });
 }
