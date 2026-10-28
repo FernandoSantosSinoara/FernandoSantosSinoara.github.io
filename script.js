@@ -120,10 +120,10 @@ function initProjectFilters() {
 
             filterButtons.forEach(b => {
                 b.classList.remove('active');
-                b.setAttribute('aria-selected', 'false');
+                b.setAttribute('aria-pressed', 'false');
             });
             btn.classList.add('active');
-            btn.setAttribute('aria-selected', 'true');
+            btn.setAttribute('aria-pressed', 'true');
 
             projectCards.forEach(card => {
                 const category = card.getAttribute('data-category');
@@ -247,7 +247,7 @@ function initContactForm() {
         e.preventDefault();
 
         // Substitua 'SEU_ID_FORMSPREE' pelo seu ID real fornecido pelo Formspree
-        const formspreeUrl = 'https://formspree.io/f/xrppqwpl';
+        const formspreeUrl = 'https://formspree.io/f/SEU_ID_FORMSPREE';
 
         const formData = new FormData(form);
         
