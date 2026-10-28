@@ -246,8 +246,7 @@ function initContactForm() {
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
 
-        // Substitua 'SEU_ID_FORMSPREE' pelo seu ID real fornecido pelo Formspree
-        const formspreeUrl = 'https://formspree.io/f/SEU_ID_FORMSPREE';
+        const formspreeUrl = 'https://formspree.io/f/xrppqwpl';
 
         const formData = new FormData(form);
         
