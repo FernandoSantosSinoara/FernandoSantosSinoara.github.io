@@ -53,6 +53,11 @@ Estudante de desenvolvimento de software com foco em lógica de programação, a
 
 * [**Best Buddy**](https://github.com/CristianDiniz/Best_Buddy): Atuação no **Backend**, auxiliando na revisão de código (*code review*).
 
+## Links de onde o portfólio está hospedado
+
+* **Pelo GitHub:** [Portfólio GitHub](https://fernandosantossinoara.github.io/)
+* **Pelo Vercel:** [Portfólio Vercel](https://portifolio-gold-psi-40.vercel.app/)
+
 ## Links e Contato
 
 * **GitHub:** [FernandoSantosSinoara](https://github.com/FernandoSantosSinoara)
